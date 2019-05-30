@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ERPC from '@etclabscore/ethereum-json-rpc';
-import BN from 'bn.js';
+const ethjsUnit = require('ethjs-unit');
 
 const erpc = new ERPC({
   transport: {
@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const onGetBalance = async () => {
     const blockNumber = await erpc.eth_blockNumber();
     const balance = await erpc.eth_getBalance(address, blockNumber);
-    setBalance(new BN(balance.substring(2), "hex").toString());
+    setBalance(ethjsUnit.fromWei(balance, "ether"));
   }
   return (
     <div className="App">
