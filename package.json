@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@etclabscore/ethereum-json-rpc": "0.0.0-development",
+    "@etclabscore/jade-service-runner-client": "^1.0.7",
     "@types/jest": "24.0.13",
     "@types/node": "12.0.3",
     "@types/react-dom": "16.8.4",
@@ -15,9 +16,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "lint": "tslint --fix -p .",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "npm run lint && react-scripts test",
+    "eject": "react-scripts eject",
+    "service-runner": "jade-service-runner"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,7 +38,9 @@
     ]
   },
   "devDependencies": {
+    "@etclabscore/jade-service-runner": "^1.0.8",
     "@types/bn.js": "^4.11.5",
-    "@types/react": "^16.8.19"
+    "@types/react": "^16.8.19",
+    "tslint": "^5.16.0"
   }
 }
