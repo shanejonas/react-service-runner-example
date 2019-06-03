@@ -3,8 +3,6 @@ import "./App.css";
 import { TaskService } from "@etclabscore/jade-service-runner-client";
 import { useServiceRunner } from "@etclabscore/jade-service-runner-react-hooks";
 
-const ethjsUnit = require("ethjs-unit"); //tslint:disable-line
-
 interface IServiceProps {
   item: TaskService;
   title?: string;
