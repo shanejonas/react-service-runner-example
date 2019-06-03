@@ -1,39 +1,59 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import ERPC from '@etclabscore/ethereum-json-rpc';
-const ethjsUnit = require('ethjs-unit');
+import React from "react";
+import "./App.css";
+import { TaskService } from "@etclabscore/jade-service-runner-client";
+import { useServiceRunner } from "@etclabscore/jade-service-runner-react-hooks";
 
-const erpc = new ERPC({
-  transport: {
-    host: "localhost",
-    port: 8545,
-    type: "http"
-  }
-});
+const ethjsUnit = require("ethjs-unit"); //tslint:disable-line
 
-const App: React.FC = () => {
-  const [balance, setBalance] = useState();
-  const [address, setAddress] = useState();
-  const onGetBalance = async () => {
-    const blockNumber = await erpc.eth_blockNumber();
-    const balance = await erpc.eth_getBalance(address, blockNumber);
-    setBalance(ethjsUnit.fromWei(balance, "ether"));
-  }
+interface IServiceProps {
+  item: TaskService;
+  title?: string;
+  onClick?: () => any;
+}
+const Service: React.FC<IServiceProps> = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <input onChange={(event) => setAddress(event.target.value)} defaultValue="0x"/>
-        <button onClick={() => onGetBalance()}>get balance</button>
-        <div>Address: {address}</div>
-        <div>Balance: {balance}</div>
-      </header>
+    <div>
+      <span>
+        {props.item.name}
+      </span>
+      |
+      <span>
+        {props.item.env}
+      </span>
+      |
+      <span style={{ backgroundColor: "#aeaeae" }} onClick={props.onClick}>
+        {props.title}
+      </span>
     </div>
   );
-}
+};
+
+const App: React.FC = () => {
+  const [supportedServices, runningServices, installedServices, installService, startService] = useServiceRunner();
+  return (
+    <>
+      <div>
+        <h5>Supported Services:</h5>
+        {supportedServices && supportedServices.map((s: any) => {
+          return (
+            <Service item={s} title={"INSTALL"} onClick={() => installService(s.name, s.version)}></Service>
+          );
+        })}
+        <h5>Installed Services:</h5>
+        {installedServices && installedServices.map((s: any) => {
+          return (
+            <Service item={s} title={"RUN"} onClick={() => startService(s.name, s.version, "kotti")}></Service>
+          );
+        })}
+        <h5>Running Services:</h5>
+        {runningServices && runningServices.map((s: TaskService) => {
+          return (
+            <Service item={s}></Service>
+          );
+        })}
+      </div>
+    </>
+  );
+};
 
 export default App;
