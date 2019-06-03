@@ -9,7 +9,6 @@
     "jsx": "preserve",
     "outDir": "./build",
     "strict": true,
-    "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -17,6 +16,7 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "noEmit": true,
+    "esModuleInterop": true,
     "isolatedModules": true
   },
   "include": [
